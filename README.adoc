@@ -1,10 +1,8 @@
 = Containers
 :icons: font
 
-VMs Credentials `osboxes`/`osboxes.org`
 
-ls -la
-. In the VM (Ubuntu)
+. SSH Keys
 +
 [source,shell]
 ----
@@ -23,7 +21,7 @@ ip addr
 
 
 
-. In the Host
+. Copy Keys / In the Host
 +
 [source,shell]
 ----
@@ -33,16 +31,18 @@ scp .ssh/id_rsa.pub osboxes@192.168.1.39:.ssh/authorized_keys
 Change the `ip`
 
 
-. In the VM (Ubuntu)
+. In the VM
 +
 [source,shell]
 ----
 sudo apt install -y lxc-utils
+
+sudo snap install lxd
 ----
 
 
 
-. Preseed YAML
+. LXD - Preseed YAML
 +
 [source,yaml]
 ----
