@@ -2,8 +2,8 @@
 :icons: font
 
 
-. SSH Keys
-+
+= SSH Keys
+
 [source,shell]
 ----
 # Update
@@ -21,8 +21,8 @@ ip addr
 
 
 
-. Copy Keys / In the Host
-+
+= Copy Keys / In the Host
+
 [source,shell]
 ----
 scp .ssh/id_rsa.pub osboxes@192.168.1.39:.ssh/authorized_keys
@@ -31,8 +31,8 @@ scp .ssh/id_rsa.pub osboxes@192.168.1.39:.ssh/authorized_keys
 Change the `ip`
 
 
-. In the VM
-+
+= In the VM
+
 [source,shell]
 ----
 sudo apt install -y lxc-utils
@@ -41,9 +41,8 @@ sudo snap install lxd
 ----
 
 
+= LXD - Preseed YAML
 
-. LXD - Preseed YAML
-+
 [source,yaml]
 ----
 config: {}
