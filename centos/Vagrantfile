@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  
+
+  config.vm.network "public_network", bridge: [
+    "en0: Wi-Fi (Wireless)"
+  ]
+
+  config.vm.provider "virtualbox" do |cfg|
+    cfg.linked_clone = true
+    cfg.memory = "2048"
+    cfg.cpus = 2
+  end
+
+  config.vm.define "centos" do |centos|
+    centos.vm.hostname    = "centos"
+    centos.vm.box         = "centos/8"
+    centos.vm.box_version = "2011.0"
+    centos.vm.box_check_update = false
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    yum -y update
+    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    yum -y update
+    grubby --args="namespace.unpriv_enable=1" --update-kernel="$(grubby --default-kernel)"
+    echo "user.max_user_namespaces=2147483647" >> /etc/sysctl.d/99-userns.conf
+    yum -y install snapd
+    ln -s /var/lib/snapd/snap /snap
+    systemctl enable --now snapd.socket
+    sudo systemctl status snapd.socket
+    sudo systemctl status snapd.service
+  SHELL
+end

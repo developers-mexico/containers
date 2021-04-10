@@ -1,0 +1,79 @@
+= Containers
+:icons: font
+
+VMs Credentials `osboxes`/`osboxes.org`
+
+ls -la
+. In the VM (Ubuntu)
++
+[source,shell]
+----
+# Update
+sudo apt update
+
+# Install SSH
+sudo apt install -y openssh-server
+
+# Generate Keys
+ssh-keygen -t rsa -b 4096 -q -N "" -f ~/.ssh/id_rsa
+
+# Write down the IP
+ip addr
+----
+
+
+
+. In the Host
++
+[source,shell]
+----
+scp .ssh/id_rsa.pub osboxes@192.168.1.39:.ssh/authorized_keys
+----
++
+Change the `ip`
+
+
+. In the VM (Ubuntu)
++
+[source,shell]
+----
+sudo apt install -y lxc-utils
+----
+
+
+
+. Preseed YAML
++
+[source,yaml]
+----
+config: {}
+networks:
+- config:
+    ipv4.address: auto
+    ipv6.address: auto
+  description: ""
+  name: lxdbr0
+  type: ""
+  project: default
+storage_pools:
+- config:
+    size: 12GB
+  description: ""
+  name: default
+  driver: btrfs
+profiles:
+- config: {}
+  description: ""
+  devices:
+    eth0:
+      name: eth0
+      network: lxdbr0
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+projects: []
+cluster: null
+----
